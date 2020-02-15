@@ -14,7 +14,7 @@ app.use(cors());
 //const postRouter = require('./routes/posts.js');
 const profileRouter = require("./routes/profiles.js");
 //app.use('/posts/', postRouter);
-app.use('/profiles/', profileRouter);
+app.use('/profiles', profileRouter);
 
 // Port
 const port = process.env.PORT || 4000;

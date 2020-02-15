@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
+const bodyparser = require('body-parser');
 const ID = 'ProfileRouter: ';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyparser.json());
 const config = require('../db/config.js');
 const sql = require('../db/db.js');
 const main = require('../app.js');
