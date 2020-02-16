@@ -1,11 +1,10 @@
 <template>
   <div>
-    <h1>Registracija</h1>
+    <h1>Dobrodošli</h1>
     <input type="text" name="name" placeholder="korisničko ime" v-model="name"><br>
     <input type="text" name="password" placeholder="*************" v-model="password"><br>
-    <input type="text" placeholder="*************"><br>
-    <button @click="register"> Registracija</button><br>
-    Imaš nalog? <a href="http://localhost:8080/#/login">Uloguj se</a>
+    <button @click="login"> Login</button><br>
+    Treba ti nalog? <a href="http://localhost:8080/#/register/">Registruj se</a>
   </div>
 </template>
 
@@ -18,8 +17,8 @@ export default {
     }
   },
   methods: {
-    async register(){
-      const response = await auth.register({
+    async login(){
+      const response = await auth.login({
         name: this.name,
         password: this.password
       })
