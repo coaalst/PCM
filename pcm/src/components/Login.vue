@@ -4,25 +4,25 @@
 
       <div class="title">
         <img src="@/assets/pcm.png">
-        <div class="md-title">PCM</div>
+        <div class="md-title">PCM - Login</div>
         <div class="md-body-1">Inventar done right</div>
       </div>
 
       <div class="form">
         <md-field>
           <label>Korisničko ime</label>
-          <md-input v-model="login.name" autofocus></md-input>
+          <md-input v-model="name" autofocus></md-input>
         </md-field>
 
         <md-field md-has-password>
           <label>Šifra</label>
-          <md-input v-model="login.password" type="password"></md-input>
+          <md-input v-model="password" type="password"></md-input>
         </md-field>
       </div>
 
       <div class="actions md-layout md-alignment-center-space-between">
         <a href="http://localhost:8080/#/register/">Treba ti nalog?</a>
-        <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
+        <md-button class="md-raised md-primary" @click="login">Log in</md-button>
       </div>
 
       <div class="loading-overlay" v-if="loading">
@@ -37,23 +37,17 @@
 <script>
 import auth from '@/service/auth'
 export default {
-  data() {
+  data () {
     return {
-      loading: false,
-      login: {
-        name: "",
-        password: ""
-      }
-    };
+      msg: 'Welcome to Your Vue.js App'
+    }
   },
   methods: {
-    auth() {
-      // your code to login user
-      // this is only for example of loading
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 5000);
+     async login(){
+      const response = await auth.login({
+        name: this.name,
+        password: this.password
+      })
     }
   }
 }
