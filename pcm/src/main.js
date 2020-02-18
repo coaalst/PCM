@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueMaterial from 'vue-material'
+import TreeView from '@ll931217/vue-treeview'
 import 'vue-material/dist/vue-material.min.css'
 
 Vue.use(VueMaterial)
+Vue.use(TreeView)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

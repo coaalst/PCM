@@ -109,31 +109,4 @@ app.post('/register', function(req, res) {
     }
 });
 
-// Vracanje korisnickog profila
-app.get('/me/', function(req, res) {
-    if (loggedIn != null) {
-        sql.query(mysql.format(config.SQLpostMap.queryByUserId + loggedIn.id), function(err, posts) {
-
-            if (err) console.log(ID + "error: ", err);
-
-            else {
-                if (posts != null) {
-                    toPost = [];
-                    posts.forEach(element => {
-                        var post = {
-                            id: element.id,
-                            title: element.title,
-                            tweet: element.tweet,
-                            userid: element.userid
-                        }
-                        console.log(ID + 'post parsed : ', post);
-                        toPost.push(post);
-                    });
-                    res.render('profile.ejs', { posts }, main.css);
-                }
-            }
-        });
-    } else res.send("401 - nisi se ulogovao");
-});
-
 module.exports = app;
