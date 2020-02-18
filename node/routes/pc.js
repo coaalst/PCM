@@ -13,19 +13,22 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/', function(req, res, next) {
     if (main.loggedIn != null) {
         console.log(ID + 'pripremam pretragu svih postova');
-        sql.query(mysql.format(config.SQLpostMap.queryAll), function(err, posts) {
+        sql.query(mysql.format(config.SQLpcMap.queryAll), function(err, posts) {
 
             if (err) console.log(ID + "error: ", err);
             else {
                 if (posts != null) {
                     toPost = [];
                     posts.forEach(element => {
-                        var classroom = {
+                        var pc = {
                             id: element.id,
-                            name: element.name
+                            name: element.name,
+                            room: element.room,
+                            invet: element.invet,
+                            status: element.status
                         }
                         console.log(ID + 'classroom parsed : ', classroom);
-                        toPost.push(classroom);
+                        toPost.push(pc);
                     });
                     res.render('board.ejs', { toPost });
                 }
@@ -38,7 +41,7 @@ app.get('/', function(req, res, next) {
 app.post('/add', function(req, res, next) {
     if (main.loggedIn != null) {
         console.log(ID + 'pripremam dodavanje classrooma');
-        sql.query(mysql.format(config.SQLpostMap.insert, [req.body.name]), function(err, resp) {
+        sql.query(mysql.format(config.SQLpcMap.insert, [req.body.name]), function(err, resp) {
 
             if (err) console.log(ID + "error: ", err);
 
@@ -51,7 +54,7 @@ app.post('/add', function(req, res, next) {
 app.get('/edit/(:id)', function(req, res, next) {
     if (main.loggedIn != null) {
         console.log(ID + 'pripremam editovanje classroom-a');
-        sql.query(mysql.format(config.SQLpostMap.queryById + req.params.id), function(err, resp) {
+        sql.query(mysql.format(config.SQLpcMap.queryById + req.params.id), function(err, resp) {
 
             if (err) console.log(ID + "error: ", err);
 
