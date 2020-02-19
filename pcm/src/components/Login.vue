@@ -40,13 +40,12 @@ export default {
     }
   },
   methods: {
-     login(){
-
-      auth.login({
+     async login(){
+      const resp = await auth.login({
         name: this.name,
         password: this.password
-      })
-      router.push("main")
+      }).then(this.$router.push("main"))
+      
     }
   }
 }

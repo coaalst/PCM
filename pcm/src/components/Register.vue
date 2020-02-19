@@ -52,23 +52,23 @@ export default {
       name: "",
       password: "",
       password1: "",
-      errors: []
+      errors: [],
+      error: ""
     }
   },
   methods: {
-    async register(){
+    register(){
       this.errors = [];
       if(!this.name || !this.password || !this.password1) this.errors.push("Pazljivo popuni sva polja!") 
       if(this.password !== this.password1) this.errors.push("Sifre se ne podudaraju!")
       if(this.name.length < 6) this.errors.push("Korisnicko ime je mnogo kratko!")
       if(this.password.length < 8) this.errors.push("Sifra je mnogo kratka!")
       
-      if(errors.length === 0) {
-        const response = await auth.register({
+      if(errors === []) {
+        const response = auth.register({
           name: this.name,
           password: this.password
-        })
-        router.push("main")
+        }).then(this.$router.push("main"))
       }
     }
   }
