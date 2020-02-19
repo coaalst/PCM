@@ -48,6 +48,7 @@ export default {
         name: this.name,
         password: this.password
       })
+      router.push("main")
     }
   }
 }

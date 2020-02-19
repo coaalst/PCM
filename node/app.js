@@ -23,6 +23,8 @@ app.use(session({
     }
 }));
 
+app.set('dusko', session.name);
+
 // Routes
 const pcRouter = require('./routes/pc.js');
 const classroomRouter = require('./routes/classroom.js');
@@ -30,7 +32,7 @@ const profileRouter = require("./routes/profiles.js");
 
 app.use('/pc/', pcRouter);
 app.use('/classroom/', classroomRouter);
-app.use('/profiles', profileRouter);
+app.use('/profiles/', profileRouter);
 
 // Port
 const port = process.env.PORT || 4000;
@@ -41,4 +43,10 @@ app.listen(port, () => {
 // Base
 app.get('/status', (req, res) => {
     res.send({ Status: "Online", Hotel: "Trivago" });
+});
+
+// Base
+app.get('/', (req, res) => {
+    if (!JSON.stringify(req.session.userId)) res.redirect('http://localhost:8080/#/main');
+    else res.redirect('http://localhost:8080/#/login');
 });

@@ -12,7 +12,6 @@ const schema = {
 // DB setup
 const config = require('../db/config.js');
 const sql = require('../db/db.js');
-const main = require('../app.js');
 const mysql = require('mysql');
 
 const app = express();
@@ -20,10 +19,11 @@ app.use(bodyparser.json());
 
 // Logovanje, dodavanje novog korisnika
 app.post('/login', function(req, res) {
-    if (!(JSON.stringify(req.session).userId)) res.redirect('http://localhost:8080/#/main');
+    const r = JSON.stringify(req.session);
+    console.log(ID + r);
+    console.log(ID + r.userId);
+    if (req.session.userId) res.redirect('http://localhost:8080/#/main');
     else {
-        console.log(ID + JSON.stringify(req.session));
-
         var user = {
             name: req.body.name,
             password: req.body.password
@@ -48,8 +48,8 @@ app.post('/login', function(req, res) {
                     console.log(ID + 'korisnik : ', parse);
                     console.log(ID + 'korisnik id parsed : ', parse.id);
                     req.session.userId = parse.id;
-                    res.redirect('http://localhost:8080/#/main');
-
+                    console.log(ID + 'novi sesn id : ', req.session.userId);
+                    res.send('http://localhost:8080/#/main');
                 } else res.render('auth.ejs', { logTitle: "Greska, nema tog korisnika u bazi..pokusajte ponovo!", regTitle: "Register" })
             }
         });
@@ -58,7 +58,7 @@ app.post('/login', function(req, res) {
 
 // Registracija, dodavanje novog korisnika
 app.post('/register', function(req, res) {
-    if (!(JSON.stringify(req.session).userId)) res.redirect('http://localhost:8080/#/main')
+    if (req.session.userId) res.redirect('http://localhost:8080/#/main')
     else {
         const { error, value } = Joi.validate(req.body, schema);
         if (error) {
@@ -117,8 +117,20 @@ app.post('/register', function(req, res) {
     }
 });
 
+// Logout
 app.post('/logout', function(req, res) {
-    req.session.userId = null;
+    req.session.destroy(err => {
+        if (err) res.redirect('http://localhost:8080/#/main');
+    });
+    res.clearCookie(req.app.get('dusko'));
+    res.redirect('http://localhost:8080/#/login');
+});
+
+app.get('/logout', function(req, res) {
+    req.session.destroy(err => {
+        if (err) res.redirect('http://localhost:8080/#/main');
+    });
+    res.clearCookie(req.app.get('dusko'));
     res.redirect('http://localhost:8080/#/login');
 });
 module.exports = app;
