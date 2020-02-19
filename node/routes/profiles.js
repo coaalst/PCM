@@ -58,7 +58,7 @@ app.post('/login', function(req, res) {
 
 // Registracija, dodavanje novog korisnika
 app.post('/register', function(req, res) {
-    if (req.session.userId) res.redirect('http://localhost:8080/#/main')
+    if (req.session.userId) res.redirect(301, 'http://localhost:8080/#/main')
     else {
         const { error, value } = Joi.validate(req.body, schema);
         if (error) {
@@ -126,11 +126,5 @@ app.post('/logout', function(req, res) {
     res.sendStatus(200);
 });
 
-app.get('/logout', function(req, res) {
-    req.session.destroy(err => {
-        if (err) res.redirect('http://localhost:8080/#/main');
-    });
-    res.clearCookie('dusko');
-    res.sendStatus(200);
-});
+
 module.exports = app;
