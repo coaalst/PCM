@@ -62,7 +62,7 @@
           <md-icon>meeting_room</md-icon>
         </md-avatar>
 
-        <span class="md-list-item-text">Ucionica 50</span>
+        <span class="md-list-item-text" @click="alert">Ucionica 50</span>
 
         <md-button class="md-icon-button md-list-action">
           <md-icon >add</md-icon>
@@ -75,10 +75,7 @@
       
 
     </md-card-content>
-    <md-card-actions>
-            <md-button>Dodaj</md-button>
-            <md-button>Obrisi</md-button>
-          </md-card-actions>
+
 
       </md-card>
         <md-card class="md-layout-item" style="min-height: 800px;">
@@ -87,6 +84,20 @@
           </md-card-header>
 
           <md-card-content>
+            <md-list-item>
+              <md-avatar>
+                <md-icon>desktop_windows</md-icon>
+              </md-avatar>
+
+              <span class="md-list-item-text">Racunar 50</span>
+
+              <md-button class="md-icon-button md-list-action">
+                <md-icon >add</md-icon>
+              </md-button>
+              <md-button class="md-icon-button md-list-action">
+                <md-icon >clear</md-icon>
+              </md-button>
+            </md-list-item>
           </md-card-content>
           <md-card-actions>
             <md-button>Dodaj</md-button>

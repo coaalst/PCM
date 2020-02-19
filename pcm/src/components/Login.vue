@@ -25,10 +25,6 @@
         <md-button class="md-raised md-primary" @click="login">Log in</md-button>
       </div>
 
-      <div class="loading-overlay" v-if="loading">
-        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-      </div>
-
     </md-content>
     <div class="background" />
   </div>
@@ -38,13 +34,12 @@
 import auth from '@/service/auth'
 export default {
   data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+    name: 
     }
   },
   methods: {
-     async login(){
-      const response = await auth.login({
+     login(){
+      auth.login({
         name: this.name,
         password: this.password
       })

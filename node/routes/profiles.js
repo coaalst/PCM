@@ -49,8 +49,8 @@ app.post('/login', function(req, res) {
                     console.log(ID + 'korisnik id parsed : ', parse.id);
                     req.session.userId = parse.id;
                     console.log(ID + 'novi sesn id : ', req.session.userId);
-                    res.send('http://localhost:8080/#/main');
-                } else res.render('auth.ejs', { logTitle: "Greska, nema tog korisnika u bazi..pokusajte ponovo!", regTitle: "Register" })
+                    res.sendStatus(200);
+                } else res.sendStatus(406);
             }
         });
     }
@@ -105,11 +105,11 @@ app.post('/register', function(req, res) {
                             console.log(ID + 'korisnik registrovan: ', parse);
                             console.log(ID + 'korisnik id parsed : ', loggedIn.id);
                             req.session.userId = parse.id;
-                            res.redirect('http://localhost:8080/#/main');
+                            res.sendStatus(200);
                         });
                     } else {
                         console.log(ID + "u bazi ima: ", JSON.stringify(col));
-                        res.render('auth.ejs', { logTitle: "Login", regTitle: "Greska, vec postoji takav korisnik" });
+                        res.sendStatus(409);
                     }
                 }
             });
@@ -120,17 +120,17 @@ app.post('/register', function(req, res) {
 // Logout
 app.post('/logout', function(req, res) {
     req.session.destroy(err => {
-        if (err) res.redirect('http://localhost:8080/#/main');
+        if (err) res.sendStatus(409);
     });
     res.clearCookie(req.app.get('dusko'));
-    res.redirect('http://localhost:8080/#/login');
+    res.sendStatus(200);
 });
 
 app.get('/logout', function(req, res) {
     req.session.destroy(err => {
         if (err) res.redirect('http://localhost:8080/#/main');
     });
-    res.clearCookie(req.app.get('dusko'));
-    res.redirect('http://localhost:8080/#/login');
+    res.clearCookie('dusko');
+    res.sendStatus(200);
 });
 module.exports = app;

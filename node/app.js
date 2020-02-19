@@ -47,6 +47,6 @@ app.get('/status', (req, res) => {
 
 // Base
 app.get('/', (req, res) => {
-    if (!JSON.stringify(req.session.userId)) res.redirect('http://localhost:8080/#/main');
+    if (req.session.userId) res.redirect('http://localhost:8080/#/main');
     else res.redirect('http://localhost:8080/#/login');
 });
