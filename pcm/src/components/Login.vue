@@ -34,11 +34,14 @@
 import auth from '@/service/auth'
 export default {
   data () {
-    name: 
+     return {
+      name: "",
+      password: ""
     }
   },
   methods: {
      login(){
+
       auth.login({
         name: this.name,
         password: this.password

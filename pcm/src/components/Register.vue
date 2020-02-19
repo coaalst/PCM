@@ -23,16 +23,20 @@
           <label>Potvrda</label>
           <md-input v-model="password1" type="password1"></md-input>
         </md-field>
+        <p v-if="errors.length">
+          <ul>
+            <li v-for="error in errors">{{ error }}</li>
+          </ul>
+        </p>
       </div>
+
+      
 
       <div class="actions md-layout md-alignment-center-space-between">
         <a href="http://localhost:8080/#/login/">Imaš već nalog?</a>
         <md-button class="md-raised md-primary" @click="register">Registracija</md-button>
       </div>
 
-      <div class="loading-overlay" v-if="loading">
-        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-      </div>
 
     </md-content>
     <div class="background" />
@@ -42,18 +46,30 @@
 <script>
 import auth from '@/service/auth'
 export default {
+  name: "Register",
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      name: "",
+      password: "",
+      password1: "",
+      errors: []
     }
   },
   methods: {
     async register(){
-      const response = await auth.register({
-        name: this.name,
-        password: this.password
-      })
-      router.push("main")
+      this.errors = [];
+      if(!this.name || !this.password || !this.password1) this.errors.push("Pazljivo popuni sva polja!") 
+      if(this.password !== this.password1) this.errors.push("Sifre se ne podudaraju!")
+      if(this.name.length < 6) this.errors.push("Korisnicko ime je mnogo kratko!")
+      if(this.password.length < 8) this.errors.push("Sifra je mnogo kratka!")
+      
+      if(errors.length === 0) {
+        const response = await auth.register({
+          name: this.name,
+          password: this.password
+        })
+        router.push("main")
+      }
     }
   }
 }
@@ -61,6 +77,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.warning{
+  color: red;
+  font-size: 20px;
+}
 .centered-container {
   display: flex;
   align-items: center;

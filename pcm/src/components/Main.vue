@@ -130,7 +130,9 @@
     name: 'PersistentMini',
     data: () => ({
       menuVisible: false,
-      showDialog: false
+      showDialog: false,
+      classrooms: [],
+      pc: []
     }),
     methods: {
       toggleMenu () {

@@ -1,3 +1,4 @@
+// Servis za autentifikaciju
 import api from '@/service/api'
 
 export default {
