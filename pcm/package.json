@@ -13,6 +13,7 @@
   "dependencies": {
     "@ll931217/vue-treeview": "^0.2.3",
     "axios": "^0.19.2",
+    "express-session": "^1.17.0",
     "vue": "^2.5.2",
     "vue-material": "^1.0.0-beta-11",
     "vue-router": "^3.0.1",

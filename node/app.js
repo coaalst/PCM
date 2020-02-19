@@ -1,5 +1,6 @@
 // Middleware
 const express = require('express');
+const session = require('express-session')
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -10,10 +11,25 @@ app.use(morgan('combine'));
 app.use(bodyparser.json());
 app.use(cors());
 
+app.use(session({
+    name: 'dusko',
+    secret: 'amburator',
+    resave: false,
+    saveUnitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 3,
+        sameSite: true,
+        secure: false,
+    }
+}));
+
 // Routes
-//const postRouter = require('./routes/posts.js');
+const pcRouter = require('./routes/pc.js');
+const classroomRouter = require('./routes/classroom.js');
 const profileRouter = require("./routes/profiles.js");
-//app.use('/posts/', postRouter);
+
+app.use('/pc/', pcRouter);
+app.use('/classroom/', classroomRouter);
 app.use('/profiles', profileRouter);
 
 // Port

@@ -17,7 +17,7 @@
             queryByName: 'select * from classroom where name like ?'
         },
         SQLuserMap: {
-            insert: 'INSERT INTO user(name, password) VALUES(?,?)',
+            insert: 'INSERT INTO user(type, name, password) VALUES(user,?,?)',
             queryById: 'select * from user where id=?',
             queryByCred: 'select * from user where name=? and password=?',
         },
