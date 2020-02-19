@@ -65,10 +65,10 @@ app.post('/edit', function(req, res, next) {
 });
 
 // Brisanje posta
-app.get('/delete/(:id)', function(req, res, next) {
+app.post('/delete', function(req, res, next) {
     //if (req.session.userId) {
     console.log(ID + 'pripremam brisanje posta');
-    sql.query(mysql.format(config.SQLpcMap.delete + req.params.id), function(err, resp) {
+    sql.query(mysql.format(config.SQLpcMap.delete, req.body.id), function(err, resp) {
 
         if (err) console.log(ID + "error: ", err);
 

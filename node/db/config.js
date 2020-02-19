@@ -10,7 +10,7 @@
         },
         SQLpostMap: {
             insert: 'INSERT INTO classroom(id, name) VALUES(NULL,?)',
-            update: 'update classroom set name=?',
+            update: 'update classroom set name=? where id=?',
             delete: 'delete from classroom where id=',
             queryById: 'select * from classroom where id=',
             queryAll: 'select * from classroom',
@@ -23,10 +23,10 @@
         },
         SQLpcMap: {
             insert: 'INSERT INTO pc(id, name, room, invet, status) VALUES(NULL, ?, ?, ?, ?)',
-            update: 'update classroom set name=?',
-            delete: 'delete from classroom where id=',
-            queryById: 'select * from classroom where id=',
+            update: 'update pc set name=?, room=?, invet=?, status=? where id=?',
+            delete: 'delete from pc where id=?',
+            queryById: 'select * from pc where id=',
             queryAll: 'select * from pc',
-            queryByName: 'select * from classroom where name like ?'
+            queryByName: 'select * from pc where name like ?'
         }
     };
