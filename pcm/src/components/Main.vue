@@ -40,7 +40,7 @@
 
           <md-divider class="md-inset"></md-divider>
 
-          <md-list-item>
+          <md-list-item @click="logout">>
             <md-icon>error</md-icon>  
             <span class="md-list-item-text">Logout</span>
           </md-list-item>
@@ -126,6 +126,7 @@
 </template>
 
 <script>
+  import auth from '@/service/auth'
   export default {
     name: 'PersistentMini',
     data: () => ({
@@ -137,6 +138,9 @@
     methods: {
       toggleMenu () {
         this.menuVisible = !this.menuVisible
+      },
+      async logout(){
+        const resp = await auth.logout().then(this.$router.push("login"))
       }
     }
   }

@@ -7,5 +7,8 @@ export default {
     },
     login(credentials) {
         return api().post('/profiles/login', credentials);
+    },
+    login() {
+        return api().post('/profiles/logout', credentials);
     }
 }
