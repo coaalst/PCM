@@ -109,7 +109,7 @@ app.post('/register', function(req, res) {
                         res.sendStatus(200);
                     });
                 } else {
-                    console.log(ID + "u bazi ima: ", JSON.stringify(col));
+                    console.log(ID + "u bazi vec ima: ", JSON.stringify(col));
                     res.sendStatus(409);
                 }
             }

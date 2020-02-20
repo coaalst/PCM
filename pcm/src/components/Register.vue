@@ -33,7 +33,7 @@
       
 
       <div class="actions md-layout md-alignment-center-space-between">
-        <a href="http://localhost:8080/#/login/">Imaš već nalog?</a>
+        <router-link to="/login"> Imas vec nalog?</router-link>
         <md-button class="md-raised md-primary" @click="register">Registracija</md-button>
       </div>
 

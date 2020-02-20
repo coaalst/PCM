@@ -6,6 +6,6 @@ export default {
         return api().get('/classroom/');
     },
     fetchPC() {
-        return api().post('/pc/');
+        return api().get('/pc/');
     }
 }

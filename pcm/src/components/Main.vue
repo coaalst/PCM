@@ -1,155 +1,198 @@
 <template>
   <div class="page-container">
-    <md-app>
-      <md-app-toolbar class="md-primary">
-        <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
-          <md-icon>menu</md-icon>
-        </md-button>
-        <span class="md-title" style="color: white;">PCM</span>
-      </md-app-toolbar>
 
-      <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          <span>Opcije</span>
+    <md-toolbar class="md-accent" md-elevation="1">
+      <h3 class="md-title">PCM</h3>
+      <md-menu class="meni" md-direction="bottom-end">
+        <md-button class="md-primary-button" md-menu-trigger>Create</md-button>
+        <md-menu-content style="background: white;">
+          <md-menu-item>My Item 1</md-menu-item>
+          <md-menu-item>My Item 2</md-menu-item>
+          <md-menu-item>My Item 3</md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-button class="md-logout" @click="logout">
+        <md-icon>power_settings_new</md-icon>
+        Logout</md-button>
+      <md-button>Refresh</md-button>
+    </md-toolbar>
+     <div class="md-layout">
 
-          <div class="md-toolbar-section-end">
-            <md-button class="md-icon-button md-dense" @click="toggleMenu">
-              <md-icon>keyboard_arrow_left</md-icon>
-            </md-button>
-          </div>
-        </md-toolbar>
+    <md-card class="ucionica">
+      <md-card-header>
+        <h1 class="md-title">Ucionice</h1>
+      </md-card-header>
 
-        <md-list>
-          <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text">Izvestaj</span>
-          </md-list-item>
-
-          <md-divider class="md-inset"></md-divider>
-
-          <md-list-item >
-            <md-icon>help_outline</md-icon>
-            <span class="md-list-item-text">Sent Mail</span>
-          </md-list-item>
-
-          <md-list-item @click="showDialog = true">
-            <md-icon>help_outline</md-icon>
-            <span class="md-list-item-text">Pomoć</span>
-     
-          </md-list-item>
-
-          <md-divider class="md-inset"></md-divider>
-
-          <md-list-item @click="logout">>
-            <md-icon>error</md-icon>  
-            <span class="md-list-item-text">Logout</span>
+      <md-card-content>
+        <md-list :md-expand-single="expandSingle">
+          <md-list-item md-expand v-for="classroom in classrooms">
+             <md-icon>desktop_windows</md-icon>
+             <span class="md-list-item-text">{{classroom.name}}</span>
+              <md-list slot="md-expand">
+                <md-list-item class="md-inset">Dodaj racunar</md-list-item>
+                <md-list-item class="md-inset" v-on:click="del(classroom.id)">Obrisi</md-list-item>
+                <md-list-item class="md-inset" v-on:click="this.search = classroom.name">Detaljno</md-list-item>
+          </md-list>
           </md-list-item>
         </md-list>
-      </md-app-drawer>
+      </md-card-content>
 
-      <md-app-content class="md-layout md-gutter">
-        <md-card class="md-layout-item" style="max-width: 400px; min-height: 800px;">
-          <md-card-header >
-            <div class="md-title">Ucionice</div>
-          </md-card-header>
+      <md-card-expand>
+        <md-card-actions md-alignment="space-between">
+          Dodaj ucionicu
+          <md-card-expand-trigger>
+            <md-button class="md-icon-button">
+              <md-icon>keyboard_arrow_down</md-icon>
+            </md-button>
+          </md-card-expand-trigger>
+        </md-card-actions>
 
+        <md-card-expand-content>
           <md-card-content>
-            <md-list>
-
-
-      <md-list-item>
-        <md-avatar>
-          <md-icon>meeting_room</md-icon>
-        </md-avatar>
-
-        <span class="md-list-item-text" @click="alert">Ucionica 50</span>
-
-        <md-button class="md-icon-button md-list-action">
-          <md-icon >add</md-icon>
-        </md-button>
-        <md-button class="md-icon-button md-list-action">
-          <md-icon >clear</md-icon>
-        </md-button>
-      </md-list-item>
-            </md-list>
-      
-
-    </md-card-content>
-
-
-      </md-card>
-        <md-card class="md-layout-item" style="min-height: 800px;">
-          <md-card-header>
-            <div class="md-title">Tehnika</div>
-          </md-card-header>
-
-          <md-card-content>
-            <md-list-item>
-              <md-avatar>
-                <md-icon>desktop_windows</md-icon>
-              </md-avatar>
-
-              <span class="md-list-item-text">Racunar 50</span>
-
-              <md-button class="md-icon-button md-list-action">
-                <md-icon >add</md-icon>
-              </md-button>
-              <md-button class="md-icon-button md-list-action">
-                <md-icon >clear</md-icon>
-              </md-button>
-            </md-list-item>
+          
+            
           </md-card-content>
-          <md-card-actions>
-            <md-button>Dodaj</md-button>
-            <md-button>Obrisi</md-button>
-          </md-card-actions>
+        </md-card-expand-content>
+      </md-card-expand>
+    </md-card>
 
-      </md-card>
+    <div class="oprema">
+          <md-table v-model="pcs" md-sort="name" md-sort-order="asc" md-card md-fixed-header class="oprema">
+            <md-table-toolbar class="md-accent">
+              <div class="md-toolbar-section-start">
+                <h1 class="md-title">Oprema</h1>
+              </div>
 
+              <md-field md-clearable class="md-toolbar-section-end">
+                <md-input placeholder="Pretraga.." v-model="search" @input="searchOnTable" style="background: white;" />
+              </md-field>
+            </md-table-toolbar>
 
-      </md-app-content>
+          <md-table-empty-state
+            md-label="Nema racunara u bazi"
+            :md-description="`U bazi nema nista sto se poklapa sa '${search}' pretragom. Pokusaj ponovo!`">
+            <md-button class="md-primary md-raised" @click="newUser">Dodaj racunar</md-button>
+          </md-table-empty-state>
 
-       <md-dialog :md-active.sync="showDialog">
+            <md-table-row slot="md-table-row" v-for="pc in pcs">
+              <md-table-cell md-label="Naziv" md-sort-by="id" md-numeric>{{ pc.name }}</md-table-cell>
+              <md-table-cell md-label="Ucionica" md-sort-by="name">{{ pc.room }}</md-table-cell>
+              <md-table-cell md-label="Invent. broj" md-sort-by="email">{{ pc.invet }}</md-table-cell>
+              <md-table-cell md-label="Status" md-sort-by="gender">{{ pc.status }}</md-table-cell>
+           </md-table-row>
+          </md-table>
+        </div>
+     </div>
+    
+     
 
-
-      <md-dialog-title>Korišćenje</md-dialog-title>
-        <md-tabs md-dynamic-height>
-          <p>Sa leve strane nalazi se panel za navigaciju. Tu se nalaze sledeće funkcionalnosti: Pritiskom na dugme izveštaj generiše se spisak računara po kabinetima.</p>
-        <md-dialog-actions>
-        <md-button class="md-primary" @click="showDialog = false">Close</md-button>
-        </md-dialog-actions>
-        </md-tabs>
-      </md-dialog>
-
-    </md-app>
   </div>
 </template>
 
 <script>
+  const toLower = text => {
+    return text.toString().toLowerCase()
+  }
+
+  const searchByName = (items, term) => {
+    if (term) {
+      return items.filter(item => toLower(item.name).includes(toLower(term)))
+    }
+
+    return items
+  }
+  import fetcher from '@/service/fetcher'
   import auth from '@/service/auth'
+  import modifier from '@/service/modifier'
   export default {
     name: 'PersistentMini',
     data: () => ({
       menuVisible: false,
-      showDialog: false,
       classrooms: [],
-      pc: []
+      pcs: [],
+      search: null,
     }),
+     created () {
+      // fetch the data when the view is created and the data is
+      // already being observed
+      this.fetchPcData(this.pcs)
+      this.fetchClassData(this.classrooms)
+      this.searched = this.pcs
+
+    },    
     methods: {
-      toggleMenu () {
-        this.menuVisible = !this.menuVisible
+      async del(id){
+        console.log(id)
+        const resp = await modifier.delete(id).then(this.$notify({
+            group: 'foo',
+            title: 'Obrisan',
+            text: 'Uspesno obrisana stavka!'
+            }));
       },
       async logout(){
         const resp = await auth.logout().then(this.$router.push("login"))
+      },
+      newUser () {
+        window.alert('Noop')
+      },
+      searchOnTable () {
+        this.pcs = searchByName(this.pcs, this.search);
+      },
+      async fetchClassData(pcs){
+        const response = await fetcher.fetchClassrooms().then(function(data){
+          var i;
+          for(i = 0; i < data.data.length; i++){
+            console.log(data.data[i])
+            pcs.push(data.data[i])}
+            
+          //console.log(this.pcs)
+          });
+      },
+      async fetchPcData(pcs){
+        const response = await fetcher.fetchPC().then(function(data){
+          var i;
+          for(i = 0; i < data.data.length; i++){
+            console.log(data.data[i])
+            pcs.push(data.data[i])}
+            
+          //console.log(this.pcs)
+          });
       }
-    }
+  }
   }
 </script>
 
 <style lang="scss" scoped>
+  .meni{
+    margin: 10px;
+  }
+  .page-container{
+    text-align: center;
+  }
+  .md-primary-button{
+    background: white;
+    color: #3C894B;
+  }
+  .ucionica{
+    max-width: 400px;
+    min-width: 300px;
+    margin-inline: 20px;
+    height: 800px;
+  }
+  .oprema{
+    min-width: 500px;
+    height: 1800px;
+  }
+  .md-field {
+    max-width: 300px;
+  }
+  .md-accent{
+    background: #3C894B;
+  }
   .md-card-header{
      background: #3C894B;
-     margin-top: 10px;
+     margin-top: 0px;
+     height: 65px;
   }
   .md-title{
     color: white;
@@ -165,14 +208,11 @@
     min-height: 800px;
     border: 1px solid rgba(#000, .12);
   }
-
-   // Demo purposes only
-  .md-drawer {
-    width: 230px;
-    max-width: calc(100vw - 125px);
+  .md-layout{
+    margin: 40px;
   }
-
-  .md-list {
-    width: 320px;
+  .md-logout{
+    background: #ad2f26;
+    color: white;
   }
 </style>

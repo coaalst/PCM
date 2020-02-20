@@ -21,7 +21,7 @@
       </div>
 
       <div class="actions md-layout md-alignment-center-space-between">
-        <a href="http://localhost:8080/#/register/">Treba ti nalog?</a>
+        <router-link to="/register"> Treba ti nalog?</router-link>
         <md-button class="md-raised md-primary" @click="login">Log in</md-button>
       </div>
 
