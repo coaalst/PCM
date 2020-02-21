@@ -1,6 +1,7 @@
 // Middleware
 const express = require('express');
-const session = require('express-session')
+const session = require('express-session');
+const uuid = require('uuid/v4')
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -14,6 +15,11 @@ app.use(cors());
 app.use(session({
     name: 'dusko',
     secret: 'amburator',
+    genid: (req) => {
+        console.log('Inside the session middleware')
+        console.log(req.sessionID)
+        return uuid() // use UUIDs for session IDs
+    },
     resave: false,
     saveUnitialized: false,
     cookie: {

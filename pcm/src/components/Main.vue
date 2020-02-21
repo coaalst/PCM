@@ -40,7 +40,7 @@
       </md-card-expand>
       <md-card-content>
         <md-list :md-expand-single="expandSingle">
-          <md-list-item md-expand v-for="classroom in classrooms">
+          <md-list-item md-expand v-for="classroom in classrooms" v-bind:key="classroom.id">
              <md-icon>desktop_windows</md-icon>
              <span class="md-list-item-text">{{classroom.name}}</span>
               <md-list slot="md-expand">
@@ -70,7 +70,7 @@
                <md-input placeholder="Naziv" v-model="newPc.name" style="background: white;"/>
             </md-field>
             <md-select v-model="newPc.room" style="max-width: 325px;">
-              <md-option v-for="classr in classrooms" v-model="classr.id" v-bin:value="classr.id" style="background: white;">{{classr.name}}</md-option>
+              <md-option v-for="classr in classrooms" v-model="classr.id" v-bind:key="classr.id" style="background: white;">{{classr.name}}</md-option>
             </md-select>
              <md-field md-clearable type='text' name='test'>
                <md-input placeholder="Inventarski broj" v-model="newPc.invet" style="background: white;"/>
@@ -100,7 +100,7 @@
             <md-button class="md-primary md-raised" @click="newUser">Dodaj racunar</md-button>
           </md-table-empty-state>
 
-            <md-table-row slot="md-table-row" v-for="pc in pcs">
+            <md-table-row slot="md-table-row" v-for="pc in pcs" v-bind:key="pc.id">
               <md-table-cell md-label="Naziv" md-sort-by="id" md-numeric>{{ pc.name }}</md-table-cell>
               <md-table-cell md-label="Invent. broj" md-sort-by="email">{{ pc.invet }}</md-table-cell>
               <md-table-cell md-label="Status" md-sort-by="gender">{{ pc.status }}</md-table-cell>
