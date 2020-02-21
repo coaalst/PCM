@@ -19,7 +19,7 @@ app.use(bodyparser.json());
 
 // Logovanje, dodavanje novog korisnika
 app.post('/login', function(req, res) {
-    if (req.session.userId) res.redirect('http://localhost:8080/#/main')
+    if (req.session.sessionID) res.redirect('http://localhost:8080/#/main')
     else {
         const r = JSON.stringify(req.session);
         console.log(ID + r);
@@ -59,7 +59,7 @@ app.post('/login', function(req, res) {
 
 // Registracija, dodavanje novog korisnika
 app.post('/register', function(req, res) {
-    if (req.session.userId) res.redirect('http://localhost:8080/#/main')
+    if (req.session.sessionID) res.redirect('http://localhost:8080/#/main')
     else {
         const { error, value } = Joi.validate(req.body, schema);
         if (error) {
@@ -123,7 +123,7 @@ app.post('/register', function(req, res) {
 
 // Logout
 app.post('/logout', function(req, res) {
-    if (req.session.userId) {
+    if (req.session.sessionID) {
         req.session.destroy(err => {
             if (err) res.sendStatus(409);
         });

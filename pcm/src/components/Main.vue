@@ -21,7 +21,7 @@
           Dodaj ucionicu
           <md-card-expand-trigger>
             <md-button class="md-icon-button">
-              <md-icon>keyboard_arrow_down</md-icon>
+              <md-icon style="color: white;">add</md-icon>
             </md-button>
           </md-card-expand-trigger>
         </md-card-actions>
@@ -39,13 +39,13 @@
         </md-card-expand-content>
       </md-card-expand>
       <md-card-content>
-        <md-list :md-expand-single="expandSingle">
+        <md-list class="md-insert" :md-expand-single="expandSingle">
           <md-list-item md-expand v-for="classroom in classrooms" v-bind:key="classroom.id">
              <md-icon>desktop_windows</md-icon>
              <span class="md-list-item-text">{{classroom.name}}</span>
               <md-list slot="md-expand">
-                <md-list-item class="md-inset" v-on:click="delClass(classroom.id)">Obrisi</md-list-item>
-                <md-list-item class="md-inset" v-on:click="infoClass(classroom.id)">Detaljno</md-list-item>
+                <md-list-item class="md-expand-element" v-on:click="delClass(classroom.id)">Obrisi</md-list-item>
+                <md-list-item class="md-expand-element" v-on:click="infoClass(classroom.id)">Detaljno</md-list-item>
           </md-list>
           </md-list-item>
         </md-list>
@@ -58,27 +58,27 @@
                 <h1 class="md-title">{{dodaj}}</h1>
               <md-card-expand-trigger>
                 <md-button class="md-icon-button" v-on:click="anim()">
-                <md-icon>keyboard_arrow_down</md-icon>
+                <md-icon style="color: white;">add</md-icon>
                 </md-button>
               </md-card-expand-trigger>
           </md-card-actions>
 
-        <md-card-expand-content class="md-title-green">
+        <md-card-expand-content class="md-title-white">
           <md-card-content>
            <form>
             <md-field md-clearable type='text' name='test'>
-               <md-input placeholder="Naziv" v-model="newPc.name" style="background: white;"/>
+               <md-input class="md-input-green" placeholder="Naziv" v-model="newPc.name" style="background: white;"/>
             </md-field>
             <md-select v-model="newPc.room" style="max-width: 325px;">
               <md-option v-for="classr in classrooms" v-model="classr.id" v-bind:key="classr.id" style="background: white;">{{classr.name}}</md-option>
             </md-select>
              <md-field md-clearable type='text' name='test'>
-               <md-input placeholder="Inventarski broj" v-model="newPc.invet" style="background: white;"/>
+               <md-input class="md-input-green" placeholder="Inventarski broj" v-model="newPc.invet" style="background: white;"/>
             </md-field>
              <md-field md-clearable type='text' name='test'>
-               <md-input placeholder="Status" v-model="newPc.status" style="background: white;"/>
+               <md-input class="md-input-green" placeholder="Status" v-model="newPc.status" style="background: white;"/>
             </md-field>
-            <md-button class="md-title-white" @click="addPc">Dodaj</md-button>
+            <md-button class="md-title-green" @click="addPc">Dodaj</md-button>
           </form>
             
           </md-card-content>
@@ -86,10 +86,11 @@
       </md-card-expand>
 
 
-          <md-table v-model="pcs" md-sort="name" md-sort-order="asc" md-card md-fixed-header class="oprema">
+          <md-table v-model="pcs" md-sort="name" md-sort-order="asc" md-card md-fixed-header class="oprema-tabela" @click="onSelect" @md-selected="onSelect">
             <md-table-toolbar class="md-accent">
               <md-field md-clearableclass="md-toolbar-section-start">
-                <md-input placeholder="Pretraga.." v-model="search" @input="searchOnTable" style="background: white;" />
+                <md-input placeholder="Pretraga.." v-model="search" @input="searchOnTable" style="background: white; margin: auto;" />
+                <md-button class="md-primary-button" style="color: #3C894B;" @click="reset">Reset</md-button>
               </md-field>
               
             </md-table-toolbar>
@@ -97,10 +98,9 @@
           <md-table-empty-state
             md-label="Nema racunara u bazi"
             :md-description="`U bazi nema nista sto se poklapa sa '${search}' pretragom. Pokusaj ponovo!`">
-            <md-button class="md-primary md-raised" @click="newUser">Dodaj racunar</md-button>
           </md-table-empty-state>
 
-            <md-table-row slot="md-table-row" v-for="pc in pcs" v-bind:key="pc.id">
+            <md-table-row slot="md-table-row" v-for="pc in pcs" v-bind:key="pc.id" md-selectable="single">
               <md-table-cell md-label="Naziv" md-sort-by="id" md-numeric>{{ pc.name }}</md-table-cell>
               <md-table-cell md-label="Invent. broj" md-sort-by="email">{{ pc.invet }}</md-table-cell>
               <md-table-cell md-label="Status" md-sort-by="gender">{{ pc.status }}</md-table-cell>
@@ -141,13 +141,14 @@
       pcs: [],
       pcs_save: [],
       search: null,
+      selected: {},
       newPc:{
         name: null,
         room: null,
         invet: null,
         status: null,
       },
-      expandSingle: false
+      expandSingle: true,
     }),
      created () {
       // fetch the data when the view is created and the data is
@@ -158,6 +159,10 @@
 
     },    
     methods: {
+      onSelect (item) {
+        this.selected = item
+        console.log(this.selected)
+      },
       async addPc(){
         console.log(this.newPc)
         const resp = await modifier.addp(this.newPc).then(this.$notify({
@@ -199,12 +204,11 @@
           if(this.pcs_save[i].room === id)this.pcs.push(this.pcs_save[i])
         }
       },
-
+      reset(){
+       this.pcs = this.pcs_save;
+      },
       async logout(){
         const resp = await auth.logout().then(this.$router.push("login"))
-      },
-      newUser () {
-        window.alert('Noop')
       },
       searchOnTable () {
         this.pcs = this.pcs_save;
@@ -236,18 +240,37 @@
 
 <style lang="scss" scoped>
   $list-width: 320px;
+  .oprema-tabela{
+    height: 550px;
+    background: white;
+  }
   .md-field {
     max-width: 300px;
   }
   .meni{
     margin: 10px;
+    border: 2px;
   }
-  .page-container{
-    text-align: center;
+  .md-expand-element{
+    background: white;
+    border-width: 1px;
+    border-left-style: solid;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-color: #3C894B; 
+  }
+  .md-input-green{
+    background: white;
+    border-width: 1px;
+    border-left-style: solid;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-color: #3C894B;
+    padding-left: 20px; 
   }
   .md-primary-button{
     background: white;
-    color: #3C894B;
   }
   .md-title-white{
     background: white;
@@ -262,10 +285,18 @@
     min-width: 300px;
     margin-inline: 20px;
     height: 800px;
+    border-width: 1px;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-color: #3C894B; 
   }
   .oprema{
     min-width: 800px;
-    height: 800px;
+    border-width: 1px;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-color: #3C894B; 
+    background: #3C894B;
   }
   .md-field {
     max-width: 300px;
@@ -283,11 +314,12 @@
   }
   .md-insert{
     line-height: 2px;
+    background: #3C894B;
+    color: white;
   }
   .md-primary{
     background: #3C894B;
   }
-  
   .md-app {
     min-height: 800px;
     border: 1px solid rgba(#000, .12);

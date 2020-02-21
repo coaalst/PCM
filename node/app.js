@@ -16,12 +16,10 @@ app.use(session({
     name: 'dusko',
     secret: 'amburator',
     genid: (req) => {
-        console.log('Inside the session middleware')
-        console.log(req.sessionID)
+        console.log('Server: ID sesije - ' + req.sessionID)
         return uuid() // use UUIDs for session IDs
     },
     resave: false,
-    saveUnitialized: false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 3,
         sameSite: true,
