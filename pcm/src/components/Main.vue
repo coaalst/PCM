@@ -4,17 +4,11 @@
     <md-toolbar class="md-accent" md-elevation="1">
       <h3 class="md-title">PCM</h3>
       <md-menu class="meni" md-direction="bottom-end">
-        <md-button class="md-primary-button" md-menu-trigger>Create</md-button>
-        <md-menu-content style="background: white;">
-          <md-menu-item>My Item 1</md-menu-item>
-          <md-menu-item>My Item 2</md-menu-item>
-          <md-menu-item>My Item 3</md-menu-item>
-        </md-menu-content>
+        <md-button class="md-primary-button" @click="refresh">Refresh</md-button>
       </md-menu>
       <md-button class="md-logout" @click="logout">
         <md-icon>power_settings_new</md-icon>
         Logout</md-button>
-      <md-button>Refresh</md-button>
     </md-toolbar>
      <div class="md-layout">
 
@@ -61,9 +55,9 @@
     <md-card class="oprema">
       <md-card-expand class="md-title-green" style="width: auto;">
             <md-card-actions md-alignment="space-between">
-                <h1 class="md-title"> Dodaj racunar</h1>
+                <h1 class="md-title">{{dodaj}}</h1>
               <md-card-expand-trigger>
-                <md-button class="md-icon-button">
+                <md-button class="md-icon-button" v-on:click="anim()">
                 <md-icon>keyboard_arrow_down</md-icon>
                 </md-button>
               </md-card-expand-trigger>
@@ -76,7 +70,7 @@
                <md-input placeholder="Naziv" v-model="newPc.name" style="background: white;"/>
             </md-field>
             <md-select v-model="newPc.room" style="max-width: 325px;">
-              <md-option v-for="classr in classrooms" v-model="classr.id" style="background: white;">{{classr.name}}</md-option>
+              <md-option v-for="classr in classrooms" v-model="classr.id" v-bin:value="classr.id" style="background: white;">{{classr.name}}</md-option>
             </md-select>
              <md-field md-clearable type='text' name='test'>
                <md-input placeholder="Inventarski broj" v-model="newPc.invet" style="background: white;"/>
@@ -94,13 +88,10 @@
 
           <md-table v-model="pcs" md-sort="name" md-sort-order="asc" md-card md-fixed-header class="oprema">
             <md-table-toolbar class="md-accent">
-              <div class="md-toolbar-section-start">
-                <h1 class="md-title">Oprema</h1>
-              </div>
-
-              <md-field md-clearable class="md-toolbar-section-end">
+              <md-field md-clearableclass="md-toolbar-section-start">
                 <md-input placeholder="Pretraga.." v-model="search" @input="searchOnTable" style="background: white;" />
               </md-field>
+              
             </md-table-toolbar>
 
           <md-table-empty-state
@@ -144,7 +135,7 @@
   export default {
     name: 'PersistentMini',
     data: () => ({
-      menuVisible: false,
+      dodaj: 'Racunari',
       classNaziv: null,
       classrooms: [],
       pcs: [],
@@ -155,7 +146,8 @@
         room: null,
         invet: null,
         status: null,
-      }
+      },
+      expandSingle: false
     }),
      created () {
       // fetch the data when the view is created and the data is
@@ -193,9 +185,19 @@
             }));
             location.reload(); 
       },
+      refresh(){
+        location.reload();
+      },
+      anim(){
+        if(this.dodaj === 'Racunari')this.dodaj = 'Dodaj racunar'
+        else this.dodaj = 'Racunari'
+      },
       infoClass(id){
-
-
+        console.log(id)
+        this.pcs = [];
+        for(let i = 0; i < this.pcs_save.length; i++){
+          if(this.pcs_save[i].room === id)this.pcs.push(this.pcs_save[i])
+        }
       },
 
       async logout(){
@@ -233,6 +235,7 @@
 </script>
 
 <style lang="scss" scoped>
+  $list-width: 320px;
   .md-field {
     max-width: 300px;
   }
@@ -295,5 +298,31 @@
   .md-logout{
     background: #ad2f26;
     color: white;
+  }
+  .full-control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+  }
+
+  .list {
+    width: $list-width;
+  }
+
+  .full-control > .md-list {
+    width: $list-width;
+    max-width: 100%;
+    height: 400px;
+    display: inline-block;
+    overflow: auto;
+    border: 1px solid rgba(#000, .12);
+    vertical-align: top;
+  }
+
+  .control {
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
   }
 </style>
