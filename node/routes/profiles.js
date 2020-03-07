@@ -7,7 +7,7 @@ const ID = 'ProfileRouter: ';
 const schema = {
     name: Joi.string().required(),
     password: Joi.string().min(8).required(),
-};
+}
 
 // DB setup
 const config = require('../db/config.js');
@@ -19,8 +19,6 @@ app.use(bodyparser.json());
 
 // Logovanje, dodavanje novog korisnika
 app.post('/login', function(req, res) {
-    if (req.session.sessionID) res.redirect('http://localhost:8080/#/main')
-    else {
         const r = JSON.stringify(req.session);
         console.log(ID + r);
         console.log(ID + r.userId);
@@ -47,20 +45,16 @@ app.post('/login', function(req, res) {
 
                     console.log(ID + 'korisnik : ', parse);
                     console.log(ID + 'korisnik id parsed : ', parse.id);
-                    req.session.userId = parse.id;
+                    req.session.sessionID = parse.id;
                     console.log(ID + 'novi sesn id : ', req.session.userId);
                     res.sendStatus(200);
                 } else res.sendStatus(406);
             }
         });
-
-    }
 });
 
 // Registracija, dodavanje novog korisnika
 app.post('/register', function(req, res) {
-    if (req.session.sessionID) res.redirect('http://localhost:8080/#/main')
-    else {
         const { error, value } = Joi.validate(req.body, schema);
         if (error) {
             console.log(ID + 'Validacija nije prosla');
@@ -104,7 +98,7 @@ app.post('/register', function(req, res) {
                                     password: col[0].password,
                                 }
                                 console.log(ID + 'korisnik registrovan: ', parse);
-                                req.session.userId = parse.id;
+                                req.session.sessionID = parse.id;
                                 res.sendStatus(200);
                             } else {
                                 console.log(ID + 'korisnik nije registrovan: ', JSON.stringify(parse));
@@ -118,7 +112,6 @@ app.post('/register', function(req, res) {
                 }
             });
         }
-    }
 });
 
 // Logout
@@ -129,8 +122,7 @@ app.post('/logout', function(req, res) {
         });
         res.clearCookie(req.app.get('dusko'));
         res.sendStatus(200);
-    } else res.redirect('http://localhost:8080/#/login');
+    } else res.sendStatus(409);
 });
-
 
 module.exports = app;

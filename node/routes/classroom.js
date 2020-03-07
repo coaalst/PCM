@@ -1,9 +1,8 @@
 const express = require('express');
 const app = express();
-const ID = 'PostRouter: ';
+const ID = 'ClassroomRouter: ';
 const config = require('../db/config.js');
 const sql = require('../db/db.js');
-const main = require('../app.js');
 const mysql = require('mysql');
 
 app.use(express.json());

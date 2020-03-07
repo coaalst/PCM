@@ -1,6 +1,5 @@
 <template>
   <div class="page-container">
-
     <md-toolbar class="md-accent" md-elevation="1">
       <h3 class="md-title">PCM</h3>
       <md-menu class="meni" md-direction="bottom-end">
@@ -10,31 +9,30 @@
         <md-icon>power_settings_new</md-icon>
         Logout</md-button>
     </md-toolbar>
-     <div class="md-layout">
 
-    <md-card class="ucionica">
-      <md-card-header>
-        <h1 class="md-title">Ucionice</h1>
-      </md-card-header>
-      <md-card-expand class="md-title-green">
-        <md-card-actions md-alignment="space-between">
-          Dodaj ucionicu
-          <md-card-expand-trigger>
-            <md-button class="md-icon-button">
-              <md-icon style="color: white;">add</md-icon>
-            </md-button>
-          </md-card-expand-trigger>
-        </md-card-actions>
+     <div class="md-layout">
+      <md-card class="ucionica">
+        <md-card-header>
+          <h1 class="md-title">Ucionice</h1>
+        </md-card-header>
+        <md-card-expand class="md-title-green">
+          <md-card-actions md-alignment="space-between">
+              Dodaj ucionicu
+            <md-card-expand-trigger>
+              <md-button class="md-icon-button">
+                <md-icon style="color: white;">add</md-icon>
+              </md-button>
+            </md-card-expand-trigger>
+          </md-card-actions>
 
         <md-card-expand-content class="md-title-green">
           <md-card-content>
-           <form >
-            <md-field md-clearable type='text' name='test'>
-               <md-input placeholder="Naziv" v-model="classNaziv" style="background: white;"/>
-            </md-field>
-            <md-button class="md-title-white" @click="addClass">Dodaj</md-button>
-          </form>
-            
+            <form >
+              <md-field md-clearable type='text' name='test'>
+                 <md-input placeholder="Naziv" v-model="classNaziv" style="background: white;"/>
+              </md-field>
+              <md-button class="md-title-white" @click="addClass">Dodaj</md-button>
+            </form>  
           </md-card-content>
         </md-card-expand-content>
       </md-card-expand>
@@ -46,7 +44,7 @@
               <md-list slot="md-expand">
                 <md-list-item class="md-expand-element" v-on:click="delClass(classroom.id)">Obrisi</md-list-item>
                 <md-list-item class="md-expand-element" v-on:click="infoClass(classroom.id)">Detaljno</md-list-item>
-          </md-list>
+              </md-list>
           </md-list-item>
         </md-list>
       </md-card-content>
@@ -54,14 +52,14 @@
 
     <md-card class="oprema">
       <md-card-expand class="md-title-green" style="width: auto;">
-            <md-card-actions md-alignment="space-between">
-                <h1 class="md-title">{{dodaj}}</h1>
-              <md-card-expand-trigger>
-                <md-button class="md-icon-button" v-on:click="anim()">
+        <md-card-actions md-alignment="space-between">
+          <h1 class="md-title">{{dodaj}}</h1>
+            <md-card-expand-trigger>
+              <md-button class="md-icon-button" v-on:click="anim()">
                 <md-icon style="color: white;">add</md-icon>
-                </md-button>
-              </md-card-expand-trigger>
-          </md-card-actions>
+              </md-button>
+            </md-card-expand-trigger>
+        </md-card-actions>
 
         <md-card-expand-content class="md-title-white">
           <md-card-content>
@@ -75,46 +73,36 @@
              <md-field md-clearable type='text' name='test'>
                <md-input class="md-input-green" placeholder="Inventarski broj" v-model="newPc.invet" style="background: white;"/>
             </md-field>
-             <md-field md-clearable type='text' name='test'>
-               <md-input class="md-input-green" placeholder="Status" v-model="newPc.status" style="background: white;"/>
+            <md-field md-clearable type='text' name='test'>
+              <md-input class="md-input-green" placeholder="Status" v-model="newPc.status" style="background: white;"/>
             </md-field>
             <md-button class="md-title-green" @click="addPc">Dodaj</md-button>
-          </form>
-            
+          </form> 
           </md-card-content>
         </md-card-expand-content>
       </md-card-expand>
 
-
-          <md-table v-model="pcs" md-sort="name" md-sort-order="asc" md-card md-fixed-header class="oprema-tabela" @click="onSelect" @md-selected="onSelect">
-            <md-table-toolbar class="md-accent">
-              <md-field md-clearableclass="md-toolbar-section-start">
-                <md-input placeholder="Pretraga.." v-model="search" @input="searchOnTable" style="background: white; margin: auto;" />
+      <md-table v-model="pcs" md-sort="name" md-sort-order="asc" md-card md-fixed-header class="oprema-tabela" @click="onSelect" @md-selected="onSelect">
+        <md-table-toolbar class="md-accent">
+          <md-field md-clearableclass="md-toolbar-section-start">
+              <md-input placeholder="Pretraga.." v-model="search" @input="searchOnTable" style="background: white; margin: auto;" />
                 <md-button class="md-primary-button" style="color: #3C894B;" @click="reset">Reset</md-button>
               </md-field>
-              
-            </md-table-toolbar>
-
-          <md-table-empty-state
+        </md-table-toolbar>
+        <md-table-empty-state
             md-label="Nema racunara u bazi"
             :md-description="`U bazi nema nista sto se poklapa sa '${search}' pretragom. Pokusaj ponovo!`">
-          </md-table-empty-state>
+        </md-table-empty-state>
 
-            <md-table-row slot="md-table-row" v-for="pc in pcs" v-bind:key="pc.id" md-selectable="single">
-              <md-table-cell md-label="Naziv" md-sort-by="id" md-numeric>{{ pc.name }}</md-table-cell>
-              <md-table-cell md-label="Invent. broj" md-sort-by="email">{{ pc.invet }}</md-table-cell>
-              <md-table-cell md-label="Status" md-sort-by="gender">{{ pc.status }}</md-table-cell>
-           </md-table-row>
-          </md-table>
-
-        
-          
-        </md-card>
-     </div>
-    
-     
-
+        <md-table-row slot="md-table-row" v-for="pc in pcs" v-bind:key="pc.id" md-selectable="single">
+          <md-table-cell md-label="Naziv" md-sort-by="id" md-numeric>{{ pc.name }}</md-table-cell>
+            <md-table-cell md-label="Invent. broj" md-sort-by="email">{{ pc.invet }}</md-table-cell>
+            <md-table-cell md-label="Status" md-sort-by="gender">{{ pc.status }}</md-table-cell>
+          </md-table-row>
+        </md-table>          
+    </md-card>
   </div>
+</div>
 </template>
 
 <script>

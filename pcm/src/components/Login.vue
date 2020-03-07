@@ -26,7 +26,8 @@
       </div>
 
     </md-content>
-    <div class="background" />
+
+    <div class="background"/>
   </div>
 </template>
 
@@ -44,7 +45,10 @@ export default {
       const resp = await auth.login({
         name: this.name,
         password: this.password
-      }).then(this.$router.push("main"))
+      }).then(function(response){
+                  const status = JSON.parse(response.data.response.status);
+                  if(status === 200) this.$router.push("main");
+                });
     }
   }
 }
