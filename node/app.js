@@ -4,7 +4,6 @@ const session = require('express-session');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-const SQLiteStore = require('connect-sqlite3')(session);
 const app = express();
 
 // App setup
@@ -13,12 +12,15 @@ app.use(bodyparser.json());
 app.use(cors());
 
 app.use(session({
-    store: new SQLiteStore,
-    name: 'dusko',
     secret: 'amburator',
     saveUninitialized: true,
     resave: true,
-    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
+    cookie: {
+        maxAge: 30 * 60 * 1000, // duration of the cookie in milliseconds, defaults to duration above
+        ephemeral: false, // when true, cookie expires when the browser closes
+        httpOnly: true, // when true, cookie is not accessible from javascript
+        secure: false // when true, cookie will only be sent over SSL. use key 'secureProxy' instead if you handle SSL not in your node process
+    }
 }));
 
 // Routes

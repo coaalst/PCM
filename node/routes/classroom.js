@@ -28,7 +28,10 @@ app.get('/', function(req, res, next) {
                 }
             }
         });
-    } else res.sendStatus(401);
+    } else {
+        console.log(ID + 'unauthorized');
+        res.sendStatus(401);
+    }
 });
 
 // Dpdavanje novog posta
@@ -41,7 +44,10 @@ app.post('/add', function(req, res, next) {
 
             else res.sendStatus(200);
         });
-    } else res.sendStatus(401);
+    } else {
+        console.log(ID + 'unauthorized');
+        res.sendStatus(401);
+    }
 });
 
 // Editovanje eposta - akcija TODO
@@ -60,7 +66,10 @@ app.post('/edit', function(req, res, next) {
                 res.sendStatus(200);
             }
         });
-    } else res.send("401 - nisi se ulogovao");
+    } else {
+        console.log(ID + 'unauthorized');
+        res.sendStatus(401);
+    }
 });
 
 // Brisanje posta
@@ -73,7 +82,10 @@ app.post('/delete', function(req, res, next) {
 
             else res.sendStatus(200);
         });
-    } else res.send("401 - nisi se ulogovao");
+    } else {
+        console.log(ID + 'unauthorized');
+        res.sendStatus(401);
+    }
 });
 
 

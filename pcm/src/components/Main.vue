@@ -211,6 +211,7 @@
             
           //console.log(this.pcs)
           });
+        console.log(response.status);
       },
       async fetchPcData(pcs, pcs_save){
         const response = await fetcher.fetchPC().then(function(data){
@@ -221,6 +222,7 @@
             pcs_save.push(data.data[i])}
           //console.log(this.pcs)
           });
+          console.log(response.status);
       }
   }
   }

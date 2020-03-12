@@ -31,7 +31,10 @@ app.get('/', function(req, res, next) {
                 }
             }
         });
-    } else res.sendStatus(401);
+    } else {
+        console.log(ID + 'unauthorized');
+        res.sendStatus(401);
+    }
 });
 
 // Dpdavanje novog racunara
@@ -44,7 +47,10 @@ app.post('/add', function(req, res, next) {
 
             else res.sendStatus(200);
         });
-    } else res.sendStatus(401);
+    } else {
+        console.log(ID + 'unauthorized');
+        res.sendStatus(401);
+    }
 });
 
 // Editovanje eposta - akcija
@@ -60,7 +66,10 @@ app.post('/edit', function(req, res, next) {
                 res.sendStatus(200);
             }
         });
-    } else res.sendStatus(401);
+    } else {
+        console.log(ID + 'unauthorized');
+        res.sendStatus(401);
+    }
 });
 
 // Brisanje posta
@@ -74,7 +83,10 @@ app.post('/delete', function(req, res, next) {
             else res.sendStatus(200);
 
         });
-    } else res.sendStatus(401);
+    } else {
+        console.log(ID + 'unauthorized');
+        res.sendStatus(401);
+    }
 });
 
 module.exports = app

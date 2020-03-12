@@ -41,14 +41,19 @@ export default {
     }
   },
   methods: {
+    redirect(){
+      this.$router.push("main");
+    },
      async login(){
       const resp = await auth.login({
         name: this.name,
         password: this.password
-      }).then(function(response){
-                  const status = JSON.parse(response.data.response.status);
-                  if(status === 200) this.$router.push("main");
-                });
+      })
+      const status = JSON.parse(resp.status);
+      console.log(resp.status);
+      console.log(resp.data.sessionID);
+      if(status === 200) this.$router.push("main");
+                  
     }
   }
 }
