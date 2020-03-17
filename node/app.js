@@ -9,7 +9,7 @@ const app = express();
 // App setup
 app.use(morgan('combine'));
 app.use(bodyparser.json());
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:8080', }));
 
 app.use(session({
     secret: 'amburator',
